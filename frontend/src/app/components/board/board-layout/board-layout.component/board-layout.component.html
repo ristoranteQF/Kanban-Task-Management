@@ -1,0 +1,56 @@
+<!-- <div class="board-layout" [class.sidebar-closed]="!isSidebarOpen">
+  <app-sidebar 
+    *ngIf="isSidebarOpen"
+    [boards]="(boardService.boards$ | async) || []"
+    [currentBoard]="currentBoard"
+    (toggleSidebar)="toggleSidebar()">
+  </app-sidebar>
+
+  <div class="main-content">
+    <app-header 
+      [currentBoard]="currentBoard"
+      [isSidebarOpen]="isSidebarOpen"
+      (toggleSidebar)="toggleSidebar()">
+    </app-header>
+
+    <app-board-view 
+      *ngIf="currentBoard"
+      [board]="currentBoard">
+    </app-board-view>
+
+    <div class="empty-board" *ngIf="!currentBoard">
+      <p>No boards found. Create a new board to get started.</p>
+    </div>
+  </div>
+</div> -->
+
+
+
+
+<div class="board-layout" [class.sidebar-closed]="!isSidebarOpen">
+  <app-sidebar 
+    *ngIf="isSidebarOpen"
+    [boards]="(boardService.boards$ | async) || []"
+    [currentBoard]="currentBoard"
+    (toggleSidebar)="toggleSidebar()">
+  </app-sidebar>
+
+  <div class="main-content">
+    <app-header 
+      [currentBoard]="currentBoard"
+      [isSidebarOpen]="isSidebarOpen"
+      (toggleSidebar)="toggleSidebar()"
+      (boardDeleted)="onBoardDeleted()"> 
+    </app-header>
+
+    <app-board-view 
+      *ngIf="currentBoard"
+      [board]="currentBoard"
+      (boardRefreshRequested)="refreshCurrentBoard()">
+    </app-board-view>
+
+    <div class="empty-board" *ngIf="!currentBoard">
+      <p>No boards found. Create a new board to get started.</p>
+    </div>
+  </div>
+</div>

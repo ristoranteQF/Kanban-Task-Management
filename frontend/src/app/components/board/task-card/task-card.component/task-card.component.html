@@ -1,0 +1,13 @@
+<div class="task-card" (click)="openDetailModal()">
+  <h4>{{ task.title }}</h4>
+  <p class="subtask-count">
+    {{ completedCount }} of {{ totalCount }} subtasks
+  </p>
+</div>
+
+<app-task-detail-modal
+  *ngIf="showDetailModal"
+  [task]="task"
+  (close)="closeDetailModal()"
+  (taskUpdated)="onTaskUpdated()">
+</app-task-detail-modal>

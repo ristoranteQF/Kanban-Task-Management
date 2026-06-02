@@ -1,0 +1,272 @@
+/* --- 1. MODAL OVERLAY & BASE STYLES (Lipseau cu desăvârșire) --- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Fundal întunecat */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Peste restul aplicației */
+  padding: 1rem;
+  overflow-y: auto; /* Permite scroll dacă ecranul e mic */
+}
+
+.modal {
+  background-color: var(--bg-primary);
+  border-radius: 8px;
+  padding: 32px; /* Padding generos */
+  width: 100%;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Specific pentru fereastra de detalii task */
+.task-detail-modal {
+  max-width: 480px;
+}
+
+/* Specific pentru fereastra de ștergere */
+.delete-modal {
+  max-width: 480px;
+  
+  h2 {
+    color: var(--destructive);
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    margin-top: 0;
+  }
+
+  p {
+    font-size: 13px;
+    line-height: 23px;
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+  }
+}
+
+/* --- 2. HEADER & MENU --- */
+.modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 24px;
+
+  h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+    line-height: normal;
+  }
+}
+
+.menu-container {
+  position: relative;
+}
+
+.menu-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0 8px; /* Click area mai mare */
+  
+  svg {
+    vertical-align: middle;
+  }
+  
+  &:hover circle {
+    stroke: var(--text-primary); // Opțional, pentru feedback vizual
+  }
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%; 
+  right: 0;
+  transform: translate(20%, 10px); /* Ajustare fină poziție */
+  background-color: var(--bg-primary); // Sau white, depinde de temă
+  border-radius: 8px;
+  box-shadow: 0px 10px 20px rgba(54, 78, 126, 0.25);
+  padding: 16px;
+  width: 192px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  z-index: 1100; /* Trebuie să fie peste overlay-ul curent */
+
+  button {
+    background: none;
+    border: none;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0;
+
+    &:hover {
+      color: var(--text-primary);
+      text-decoration: none;
+    }
+
+    &.delete {
+      color: var(--destructive);
+      &:hover {
+        color: #ff9898; 
+      }
+    }
+  }
+}
+
+/* --- 3. CONTENT SECTIONS --- */
+.description {
+  font-size: 13px;
+  line-height: 23px;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+  margin-top: 0;
+}
+
+.subtasks-section {
+  margin-bottom: 24px;
+
+  h3 {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+  }
+}
+
+.subtasks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.subtask-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px;
+  background-color: var(--bg-secondary);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: rgba(99, 95, 199, 0.25);
+  }
+
+  &.completed .subtask-title {
+    text-decoration: line-through;
+    opacity: 0.5;
+    color: var(--text-secondary);
+  }
+
+  input[type="checkbox"] {
+    display: none; /* Ascundem checkbox-ul default */
+  }
+
+  /* Checkbox customizat */
+  .checkmark {
+    width: 16px;
+    height: 16px;
+    border: 1px solid rgba(130, 143, 163, 0.25);
+    border-radius: 2px;
+    background-color: var(--bg-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  input:checked ~ .checkmark {
+    background-color: var(--primary);
+    border-color: var(--primary);
+
+    &::after {
+      content: '';
+      width: 10px;
+      height: 7px;
+      background-image: url("data:image/svg+xml,%3Csvg width='10' height='7' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='%23FFF' stroke-width='2' fill='none' d='M1 3.75L3.82 6.583 9.182 1.25'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+  }
+
+  .subtask-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+}
+
+.status-section {
+  label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+  }
+
+  select {
+    width: 100%;
+    padding: 8px 16px;
+    border: 1px solid rgba(130, 143, 163, 0.25);
+    border-radius: 4px;
+    font-size: 13px;
+    color: var(--text-primary);
+    background-color: var(--bg-primary);
+    cursor: pointer;
+    height: 40px;
+
+    &:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+  }
+}
+
+/* --- 4. BUTTONS (Lipseau stilurile pentru butoanele de delete) --- */
+.modal-actions {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+
+  button {
+    flex: 1;
+    padding: 0.75rem;
+    border-radius: 20px;
+    border: none;
+    font-weight: bold;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .btn-destructive {
+    background-color: var(--destructive);
+    color: white;
+
+    &:hover {
+      background-color: #ff9898;
+    }
+  }
+
+  .btn-secondary {
+    background-color: rgba(99, 95, 199, 0.1);
+    color: var(--primary);
+
+    &:hover {
+      background-color: rgba(99, 95, 199, 0.25);
+    }
+  }
+}

@@ -1,0 +1,39 @@
+<div class="board-view">
+  <div class="columns-container">
+    <div class="column" *ngFor="let column of board.columns">
+      <div class="column-header">
+        <div class="column-indicator" [style.background-color]="column.color"></div>
+        <h3>{{ column.name }} ({{ column.tasks.length }})</h3>
+      </div>
+
+      <div 
+        class="tasks-container"
+        cdkDropList
+        [id]="'column-' + column.id">
+        <app-task-card
+          *ngFor="let task of column.tasks"
+          [task]="task"
+          [completedCount]="getCompletedSubtasksCount(task)"
+          [totalCount]="task.subtasks.length"
+          (taskUpdated)="refreshBoard()"
+          >
+        </app-task-card>
+      </div>
+    </div>
+
+    <div class="new-column">
+      <button class="new-column-btn" (click)="openEditBoardModal()">
+        <span>+ Edit Board</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Add the modal -->
+<app-board-modal
+  *ngIf="showEditBoardModal"
+  [board]="board"
+  [isEditMode]="true"
+  (close)="closeEditBoardModal()"
+  (boardCreated)="onBoardUpdated()">
+</app-board-modal>

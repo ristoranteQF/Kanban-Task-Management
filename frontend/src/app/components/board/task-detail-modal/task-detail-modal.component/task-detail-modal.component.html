@@ -1,0 +1,74 @@
+<div class="modal-overlay" (click)="onClose()">
+  <div class="modal task-detail-modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>{{ task.title }}</h2>
+      <div class="menu-container">
+        <button class="menu-btn" (click)="toggleMenu()">
+          <svg width="5" height="20" xmlns="http://www.w3.org/2000/svg">
+            <g fill="currentColor" fill-rule="evenodd">
+              <circle cx="2.308" cy="2.308" r="2.308"/>
+              <circle cx="2.308" cy="10" r="2.308"/>
+              <circle cx="2.308" cy="17.692" r="2.308"/>
+            </g>
+          </svg>
+        </button>
+
+        <div class="dropdown-menu" *ngIf="showMenu">
+          <button (click)="editTask()">Edit Task</button>
+          <button class="delete" (click)="deleteTask()">Delete Task</button>
+        </div>
+      </div>
+    </div>
+
+    <p class="description" *ngIf="task.description">{{ task.description }}</p>
+
+    <div class="subtasks-section" *ngIf="task.subtasks.length > 0">
+      <h3>Subtasks ({{ completedSubtasksCount }} of {{ task.subtasks.length }})</h3>
+      <div class="subtasks-list">
+        <label 
+          *ngFor="let subtask of task.subtasks" 
+          class="subtask-checkbox"
+          [class.completed]="subtask.isCompleted">
+          <input 
+            type="checkbox" 
+            [checked]="subtask.isCompleted"
+            (change)="toggleSubtask(subtask.id, !subtask.isCompleted)">
+          <span class="checkmark"></span>
+          <span class="subtask-title">{{ subtask.title }}</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="status-section" *ngIf="currentBoard">
+      <label for="status">Current Status</label>
+      <select 
+        id="status" 
+        [(ngModel)]="selectedColumnId"
+        (change)="onStatusChange(selectedColumnId)">
+        <option *ngFor="let column of currentBoard.columns" [value]="column.id">
+          {{ column.name }}
+        </option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<app-task-modal
+  *ngIf="showEditModal && currentBoard"
+  [board]="currentBoard"
+  [task]="task"
+  [isEditMode]="true"
+  (close)="closeEditModal()"
+  (taskCreated)="onTaskEdited()">
+</app-task-modal>
+
+<div class="modal-overlay" *ngIf="showDeleteConfirm" (click)="showDeleteConfirm = false">
+  <div class="modal delete-modal" (click)="$event.stopPropagation()">
+    <h2>Delete this task?</h2>
+    <p>Are you sure you want to delete the '{{ task.title }}' task and its subtasks? This action cannot be reversed.</p>
+    <div class="modal-actions">
+      <button class="btn-destructive" (click)="confirmDelete()">Delete</button>
+      <button class="btn-secondary" (click)="showDeleteConfirm = false">Cancel</button>
+    </div>
+  </div>
+</div>

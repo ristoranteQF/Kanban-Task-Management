@@ -1,0 +1,70 @@
+<div class="modal-overlay" (click)="onClose()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <h2>{{ isEditMode ? 'Edit Task' : 'Add New Task' }}</h2>
+
+    <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input 
+          id="title" 
+          type="text" 
+          formControlName="title"
+          placeholder="e.g. Take coffee break">
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea 
+          id="description" 
+          formControlName="description"
+          rows="4"
+          placeholder="e.g. It's always good to take a break. This 15 minute break will recharge the batteries a little."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Subtasks</label>
+        <div class="subtasks-list" formArrayName="subtasks">
+          <div 
+            *ngFor="let subtask of subtasks.controls; let i = index" 
+            class="subtask-item"
+            [formGroupName]="i">
+            <input 
+              type="text" 
+              formControlName="title"
+              placeholder="e.g. Make coffee">
+            <button 
+              type="button" 
+              class="btn-icon" 
+              (click)="removeSubtask(i)">
+              <svg width="15" height="15" xmlns="http://www.w3.org/2000/svg">
+                <g fill="currentColor" fill-rule="evenodd">
+                  <path d="m12.728 0 2.122 2.122L2.122 14.85 0 12.728z"/>
+                  <path d="M0 2.122 2.122 0 14.85 12.728l-2.122 2.122z"/>
+                </g>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <button type="button" class="btn-secondary full-width" (click)="addSubtask()">
+          + Add New Subtask
+        </button>
+      </div>
+
+      <div class="form-group">
+        <label for="status">Status</label>
+        <select id="status" formControlName="columnId">
+          <option *ngFor="let column of board.columns" [value]="column.id">
+            {{ column.name }}
+          </option>
+        </select>
+      </div>
+
+      <button 
+        type="submit" 
+        class="btn-primary full-width" 
+        [disabled]="taskForm.invalid || isLoading">
+        {{ isLoading ? 'Saving...' : (isEditMode ? 'Save Changes' : 'Create Task') }}
+      </button>
+    </form>
+  </div>
+</div>

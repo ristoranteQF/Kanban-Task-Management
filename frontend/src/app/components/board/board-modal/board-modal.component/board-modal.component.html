@@ -1,0 +1,57 @@
+<div class="modal-overlay" (click)="onClose()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <h2>{{ isEditMode ? 'Edit Board' : 'Add New Board' }}</h2>
+
+    <form [formGroup]="boardForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="boardName">Board Name</label>
+        <input 
+          id="boardName" 
+          type="text" 
+          formControlName="name"
+          placeholder="e.g. Web Design">
+      </div>
+
+      <div class="form-group">
+        <label>Board Columns</label>
+        <div class="columns-list" formArrayName="columns">
+          <div 
+            *ngFor="let column of columns.controls; let i = index" 
+            class="column-item"
+            [formGroupName]="i">
+            <input 
+              type="text" 
+              formControlName="name"
+              placeholder="e.g. Todo">
+            <input 
+              type="color" 
+              formControlName="color"
+              class="color-picker">
+            <button 
+              type="button" 
+              class="btn-icon" 
+              (click)="removeColumn(i)"
+              [disabled]="columns.length <= 1">
+              <svg width="15" height="15" xmlns="http://www.w3.org/2000/svg">
+                <g fill="currentColor" fill-rule="evenodd">
+                  <path d="m12.728 0 2.122 2.122L2.122 14.85 0 12.728z"/>
+                  <path d="M0 2.122 2.122 0 14.85 12.728l-2.122 2.122z"/>
+                </g>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <button type="button" class="btn-secondary full-width" (click)="addColumn()">
+          + Add New Column
+        </button>
+      </div>
+
+      <button 
+        type="submit" 
+        class="btn-primary full-width" 
+        [disabled]="boardForm.invalid || isLoading">
+        {{ isLoading ? 'Saving...' : (isEditMode ? 'Save Changes' : 'Create New Board') }}
+      </button>
+    </form>
+  </div>
+</div>
