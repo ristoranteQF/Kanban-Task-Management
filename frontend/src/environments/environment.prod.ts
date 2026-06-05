@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://YOUR-RENDER-BACKEND.onrender.com'  // no trailing slash
+  apiUrl: 'https://kanban-task-management-f6n9.onrender.com'  // no trailing slash
 };
