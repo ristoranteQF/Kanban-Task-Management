@@ -2,6 +2,8 @@
 
 A full-stack Kanban task management web app. Create boards, organize tasks into columns, break them into subtasks, and drag tasks between columns — all behind JWT authentication.
 
+Live app: https://kanban-task-management-pied-eight.vercel.app/
+
 **Stack:** Angular 18 (frontend) · NestJS 10 + TypeORM + PostgreSQL (backend)
 
 ## Features
