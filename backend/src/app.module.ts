@@ -24,7 +24,8 @@ import { Subtask } from './subtasks/entities/subtask.entity';
       password: process.env.DB_PASSWORD || 'postgres',
       database: process.env.DB_NAME || 'kanban_db',
       entities: [User, Board, BoardColumn, Task, Subtask],
-      synchronize: true, // Set to false in production
+      synchronize: false, // Set to false in production,
+      ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false
     }),
     AuthModule,
     BoardsModule,

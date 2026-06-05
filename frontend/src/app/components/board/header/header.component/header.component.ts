@@ -4,6 +4,7 @@ import { Board } from '../../../../models/board.model';
 import { TaskModalComponent } from '../../task-modal/task-modal.component/task-modal.component';
 import { BoardModalComponent } from '../../board-modal/board-modal.component/board-modal.component';
 import { BoardService } from '../../../../services/board.service';
+import { AuthService } from '../../../../services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -22,7 +23,14 @@ export class HeaderComponent {
   showEditBoardModal = false;
   showDeleteConfirm = false;
 
-  constructor(private boardService: BoardService) {}
+  constructor(
+    private boardService: BoardService,
+    private authService: AuthService
+  ) {}
+
+  logout(): void {
+    this.authService.logout();
+  }
 
   openAddTaskModal(): void {
     if (this.currentBoard && this.currentBoard.columns.length > 0) {
